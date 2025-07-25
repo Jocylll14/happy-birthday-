@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hope u like it</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="falling-hearts"></div>
+  <div class="paper-container">
+  <div class="birthday-message" style="text-align:center;">
+    <h1>Happy Birthday, Raphꨄ︎</h1>
+    <p class="date" style="margin-top:24px;">July 31, 2025</p>
+    <div style="margin:24px 0;">
+      <iframe style="border-radius:12px; box-shadow:0 2px 8px rgba(33,150,243,0.10);" src="https://open.spotify.com/embed/track/736PP5LTtREkDgktNmX3Gu?utm_source=generator" width="320" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    <a href="letter.html" class="next-button" style="display:inline-block; margin-top:16px;">Next</a>
+  </div>
+</div>
+  </div>
+  <script>
+    function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+  document.getElementById('falling-hearts').appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 400);
+
+  </script>
+</body>
+</html>

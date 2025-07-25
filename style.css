@@ -1,0 +1,156 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e3f2fd; /* light blue background */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .paper-container {
+    max-width: 98vw;
+    padding: 24px 4vw 24px 4vw;
+    margin: 24px 0;
+    border-radius: 14px;
+  }
+  .birthday-message h1 {
+    font-size: 1.5em;
+  }
+  .birthday-message .date {
+    font-size: 1em;
+  }
+  iframe {
+    width: 90vw !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .next-button {
+    font-size: 1em;
+    padding: 8px 18px;
+  }
+}
+
+#falling-hearts {
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2764.png') no-repeat center/contain;
+  opacity: 0.8;
+  animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-40px) scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh) scale(1.1) rotate(30deg);
+    opacity: 0;
+  }
+}
+
+.paper-container {
+  background: url('https://www.transparenttextures.com/patterns/old-mathematics.png'), #eaf6fb; /* light blue paper */
+  border: 2px solid #90caf9; /* blue border */
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(33,150,243,0.10), 0 1px 4px rgba(33,150,243,0.08);
+  max-width: 600px; /* mas malaki na ang width */
+  width: 100%;
+  margin: 60px auto;
+  padding: 50px 50px 48px 50px; /* mas malaki na ang padding */
+  position: relative;
+  font-family: 'Georgia', 'Times New Roman',
+}
+
+.birthday-message h1 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5em;
+  color: #1976d2; /* blue heading */
+  text-shadow: 1px 1px 0 #eaf6fb, 0 2px 8px #90caf9;
+  margin-bottom: 5px;
+}
+
+.birthday-message .date {
+  font-family: 'Courier New', Courier, monospace;
+  color: #1976d2;
+  background: rgba(255,255,255,0.7);
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.pin-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  grid-gap: 16px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.pin-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #eaf6fb;
+  color: #1976d2;
+  font-size: 1.5em;
+  font-family: 'Georgia', serif;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin: 0 auto;
+  outline: none;
+}
+.pin-btn:hover, .pin-btn:focus {
+  background: #90caf9;
+  color: #fff;
+}
+#pinDisplay {
+  letter-spacing: 18px;
+  min-height: 1em;
+  text-align: center;
+}
+
+.next-button {
+  display: block;
+  margin: 32px auto 0;
+  padding: 10px 24px;
+  background: #90caf9; /* blue button */
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+  transition: background 0.3s;
+  font-family: 'Georgia', serif;
+}
+.next-button:hover {
+  background: #1976d2;
+}
+.fade-out {
+  animation: fadeOut 0.7s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}

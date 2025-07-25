@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Letter</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    /* Responsive adjustments */
+@media (max-width: 600px) {
+  .paper-container {
+    max-width: 98vw;
+    padding: 24px 4vw 24px 4vw;
+    margin: 24px 0;
+    border-radius: 14px;
+  }
+  .birthday-message h1 {
+    font-size: 1.5em;
+  }
+  .birthday-message .date {
+    font-size: 1em;
+  }
+  iframe {
+    width: 90vw !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .next-button {
+    font-size: 1em;
+    padding: 8px 18px;
+  }
+}
+    .pin-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+      background: rgba(227, 242, 253, 0.85);
+    }
+    .pin-content {
+  background: #eaf6fb;
+  border: 2px solid #90caf9;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(33,150,243,0.10);
+  padding: 48px 32px;         /* increased padding */
+  text-align: center;
+  z-index: 2;
+  min-width: 370px;           /* make modal wider */
+}
+
+.pin-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 80px); /* bigger buttons */
+  grid-gap: 24px;                         /* more space between buttons */
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.pin-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: #eaf6fb;
+  color: #1976d2;
+  font-size: 2.2em;           /* bigger font */
+  font-family: 'Georgia', serif;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin: 0 auto;
+  outline: none;
+}
+
+#pinDisplay {
+  letter-spacing: 24px;
+  min-height: 1.5em;
+  text-align: center;
+  font-size: 2.5em;           /* bigger dots */
+  color: #1976d2;
+  font-family: 'Courier New',monospace;
+  margin-bottom: 24px;
+}
+    .pin-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: #eaf6fb;
+      color: #1976d2;
+      font-size: 1.5em;
+      font-family: 'Georgia', serif;
+      box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin: 0 auto;
+      outline: none;
+    }
+    .pin-btn:hover, .pin-btn:focus {
+      background: #90caf9;
+      color: #fff;
+    }
+    #pinDisplay {
+      letter-spacing: 18px;
+      min-height: 1em;
+      text-align: center;
+      font-size: 2em;
+      color: #1976d2;
+      font-family: 'Courier New',monospace;
+      margin-bottom: 18px;
+    }
+    #pinError {
+      color: #d32f2f;
+      margin-top: 10px;
+      font-size: 1em;
+      display: none;
+    }
+.envelope-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 420px; /* taller for bigger envelope */
+  cursor: pointer;
+  z-index: 2;
+}
+
+.envelope {
+  position: relative;
+  width: 400px;   /* wider */
+  height: 240px;  /* taller */
+  perspective: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 120px;
+  background: linear-gradient(135deg, #e3f2fd 60%, #90caf9 100%);
+  border-top-left-radius: 24px 48px;
+  border-top-right-radius: 24px 48px;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  z-index: 3;
+  box-shadow: 0 8px 24px rgba(33,150,243,0.10);
+  border-bottom: 2px solid #90caf9;
+  transition: transform 0.7s cubic-bezier(.77,0,.18,1);
+  transform-origin: bottom center;
+}
+
+.envelope-front {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 400px;
+  height: 120px;
+  background: linear-gradient(135deg, #eaf6fb 70%, #bbdefb 100%);
+  border-bottom-left-radius: 24px 48px;
+  border-bottom-right-radius: 24px 48px;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  z-index: 2;
+  border-top: 2px solid #90caf9;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.envelope-body {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 400px;
+  height: 160px;
+  background: linear-gradient(135deg, #eaf6fb 80%, #bbdefb 100%);
+  border-radius: 0 0 24px 24px;
+  z-index: 1;
+  border: 1px solid #bbdefb;
+  box-shadow: 0 4px 16px rgba(33,150,243,0.08);
+}
+
+.envelope-shadow {
+  position: absolute;
+  bottom: -24px;
+  left: 60px;
+  width: 280px;
+  height: 40px;
+  background: rgba(33,150,243,0.10);
+  border-radius: 50%;
+  z-index: 0;
+  filter: blur(2px);
+}
+
+.envelope-seal {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at 60% 40%, #ffebee 70%, #e57373 100%);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(229,115,115,0.18);
+  border: 3px solid #e57373;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.envelope-text {
+  position: relative;
+  width: auto;
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5em;
+  color: #d32f2f;
+  z-index: 11;
+  pointer-events: none;
+  text-shadow: 0 2px 8px #fff, 0 1px 0 #fff;
+  letter-spacing: 1px;
+  font-weight: bold;
+  padding: 0 6px;
+  background: transparent;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+    .letter-paper {
+      background: #eaf6fb;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(33,150,243,0.12), 0 1px 4px rgba(33,150,243,0.08);
+      padding: 40px 32px;
+      max-width: 600px;
+      width: 100%;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: #2d2e30;
+      position: relative;
+      animation: fadeIn 1s;
+      border: 2px dashed #90caf9;
+    }
+    .letter-paper p {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 15px;
+  color: #000000;
+  line-height: 1.7;
+  margin-bottom: 5px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+        .letter-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2em;
+      text-align: center;
+      margin-bottom: 18px;
+      color: #1976d2;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .letter-sign {
+      margin-top: 32px;
+      text-align: right;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2em;
+      color: #000000;
+    }
+    .next-button {
+      display: block;
+      margin: 32px auto 0;
+      padding: 10px 24px;
+      background: #90caf9;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+      transition: background 0.3s;
+      font-family: 'Georgia', serif;
+      width: max-content;
+    }
+    .next-button:hover {
+      background: #1976d2;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="envelope-container" id="envelopeContainer" style="pointer-events:auto; opacity:1;">
+  <div class="envelope">
+    <div class="envelope-flap" id="flap"></div>
+    <div class="envelope-front">
+      <div class="envelope-seal">
+        <span class="envelope-text">Click to open</span>
+      </div>
+    </div>
+    <div class="envelope-body"></div>
+    <div class="envelope-shadow"></div>
+  </div>
+</div>
+  <!-- PIN Modal -->
+  <div id="pinModal" class="pin-modal" style="display:none;">
+    <div class="pin-content">
+      <span class="pin-label" style="
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2em;
+  color: #1976d2;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px 8px #bbdefb, 0 1px 0 #fff;
+  margin-bottom: 10px;
+  display: block;
+">
+  <span style="font-size:1.2em;"></span> Your Fav Number <span style="font-size:1.2em;"></span>
+</span>
+      <div id="pinDisplay"></div>
+      <div class="pin-pad">
+        <button type="button" class="pin-btn" data-num="1">1</button>
+        <button type="button" class="pin-btn" data-num="2">2</button>
+        <button type="button" class="pin-btn" data-num="3">3</button>
+        <button type="button" class="pin-btn" data-num="4">4</button>
+        <button type="button" class="pin-btn" data-num="5">5</button>
+        <button type="button" class="pin-btn" data-num="6">6</button>
+        <button type="button" class="pin-btn" data-num="7">7</button>
+        <button type="button" class="pin-btn" data-num="8">8</button>
+        <button type="button" class="pin-btn" data-num="9">9</button>
+        <button type="button" class="pin-btn" data-num="0">0</button>
+        <button type="button" class="pin-btn" id="pinDel">⌫</button>
+        <button type="button" class="pin-btn" id="pinEnter">⏎</button>
+      </div>
+      <div id="pinError">Incorrect PIN. Try again.</div>
+    </div>
+  </div>
+  <div class="letter-paper" id="letter" style="display:none;">
+    <div class="letter-title">To Raph,</div>
+    <p>
+     On this special day, I just want to remind you how much you mean to me — even though we aren’t talking right now.
+     Thank you for being my comfort zone, my safe place, my home, and my inspiration — lahat na.</p>
+    <p>
+     I’m so proud of you, Raph, sa lahat ng achievements mo. 
+     I’ll always be your biggest supporter. You deserve all the happiness and love.
+     I hope maging okay ka na soon. Don’t pressure yourself, okay? I’m always here for you.
+    </p>
+    <p>
+     Happy Birthday again, Raph.
+    </p>
+    <div class="letter-sign">With all my heart,<br>Jocyꨄ︎</div>
+    <a href="flower.html" class="next-button" style="display:block; margin:32px auto 0; width:max-content;">You deserve this!</a>
+  </div>
+  <script>
+    // Show PIN modal on envelope click
+    document.getElementById('envelopeContainer').onclick = function() {
+      document.getElementById('pinModal').style.display = 'flex';
+    };
+
+    // PIN pad logic
+    const correctPin = "11";
+    let pinInput = "";
+
+    function updatePinDisplay() {
+      document.getElementById('pinDisplay').textContent = "●".repeat(pinInput.length);
+      document.getElementById('pinError').style.display = "none";
+    }
+
+    document.querySelectorAll('.pin-btn[data-num]').forEach(btn => {
+      btn.onclick = function() {
+        if(pinInput.length < 2) {
+          pinInput += btn.dataset.num;
+          updatePinDisplay();
+        }
+      };
+    });
+
+    document.getElementById('pinDel').onclick = function() {
+      pinInput = pinInput.slice(0, -1);
+      updatePinDisplay();
+    };
+
+    document.getElementById('pinEnter').onclick = function() {
+      if(pinInput === correctPin) {
+        document.getElementById('pinModal').style.display = 'none';
+        const flap = document.getElementById('flap');
+        flap.style.transform = 'rotateX(120deg)';
+        flap.style.transition = 'transform 0.7s cubic-bezier(.77,0,.18,1)';
+        setTimeout(function() {
+          document.getElementById('envelopeContainer').style.display = 'none';
+          document.getElementById('letter').style.display = 'block';
+        }, 700);
+      } else {
+        document.getElementById('pinError').style.display = "block";
+        pinInput = "";
+        updatePinDisplay();
+      }
+    };
+
+    updatePinDisplay();
+  </script>
+</body>
+</html>
